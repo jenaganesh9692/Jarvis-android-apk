@@ -1,0 +1,169 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "J. A. R. V. I. S. Sync, Build & Help API",
+    "description": "Live sync bridge connecting ChatGPT with the J. A. R. V. I. S. project, Android APK Gradle setup, GitHub Actions workflow, and troubleshooting help.",
+    "version": "3.9.0"
+  },
+  "servers": [
+    {
+      "url": "https://ais-pre-xsafuprqcc57kic2r7ipzj-985987988481.asia-southeast1.run.app",
+      "description": "J. A. R. V. I. S. Published Cloud Run Server"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "operationId": "getProjectHealth",
+        "summary": "Check if the J. A. R. V. I. S. server is online and healthy",
+        "responses": {
+          "200": {
+            "description": "Server health status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "app": { "type": "string" },
+                    "owner": { "type": "string" },
+                    "timestamp": { "type": "string" },
+                    "uptime": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatgpt/sync": {
+      "get": {
+        "operationId": "syncJarvisProject",
+        "summary": "Fetch live synced J. A. R. V. I. S. project manifest, component list, service list, Android APK readiness, and GitHub workflow status",
+        "responses": {
+          "200": {
+            "description": "Live synced project snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "syncedAt": { "type": "string" },
+                    "app": { "type": "string" },
+                    "version": { "type": "string" },
+                    "androidPackage": { "type": "string" },
+                    "githubWorkflowReady": { "type": "boolean" },
+                    "androidProjectReady": { "type": "boolean" },
+                    "chatgptSyncReady": { "type": "boolean" },
+                    "components": { "type": "array", "items": { "type": "string" } },
+                    "services": { "type": "array", "items": { "type": "string" } },
+                    "androidFiles": { "type": "array", "items": { "type": "string" } },
+                    "filesCheck": { "type": "object" },
+                    "features": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatgpt/context": {
+      "get": {
+        "operationId": "getJarvisBuildContext",
+        "summary": "Alias for live synced J. A. R. V. I. S. project context",
+        "responses": {
+          "200": {
+            "description": "Structured build and architecture context",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chatgpt/help": {
+      "get": {
+        "operationId": "getJarvisBuildHelp",
+        "summary": "Get troubleshooting and setup help for GitHub APK build, Gradle errors, Android permissions, or ChatGPT sync",
+        "parameters": [
+          {
+            "name": "topic",
+            "in": "query",
+            "required": false,
+            "description": "Help topic: all, github-apk, gradle-error, android-permissions, chatgpt-connect, call-assistant, voice-studio",
+            "schema": {
+              "type": "string",
+              "default": "all"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Build and setup help response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "topic": { "type": "string" },
+                    "title": { "type": "string" },
+                    "steps": { "type": "array", "items": { "type": "string" } },
+                    "notes": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "askJarvisBuildHelp",
+        "summary": "Ask a custom build, APK error, or setup question grounded in the synced J. A. R. V. I. S. project",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["question"],
+                "properties": {
+                  "question": {
+                    "type": "string",
+                    "description": "Build error log, GitHub Actions question, or Android setup question"
+                  },
+                  "topic": {
+                    "type": "string",
+                    "description": "Optional topic hint"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project-aware help answer in Romanized Hindi / English",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "answer": { "type": "string" },
+                    "topic": { "type": "string" },
+                    "source": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "J. A. R. V. I. S.",
+  "description": "J. A. R. V. I. S. – Personal Android AI assistant. Voice commands, WhatsApp, phone settings, flashlight, security guard, and phone automation.",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
